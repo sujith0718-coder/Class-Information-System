@@ -1,23 +1,23 @@
-var announcements = [
+const announcements = [
     {
         title: "DSP Hall Changed",
-        priority: "Critical"
+        priority: "🔴 Critical"
     }
     ,
     {
         title: "Record Submission Tomorrow",
-        priority: "Important"
+        priority: "🟠 Important"
 
     }
     ,
     {
         title: "Faculty Leave",
-        priority: "Information"
+        priority: "🟢 Information"
     }
 
 ];
 
-var announcementList = document.getElementById("announcements-list");
+const announcementList = document.getElementById("announcement-list");
 announcements.forEach(function (announcement) {
     announcementList.innerHTML += `<div class="announcement-card">
         <h3>${announcement.title}</h3>
@@ -26,3 +26,11 @@ announcements.forEach(function (announcement) {
 
 
 });
+if (announcements.length === 0) {
+    📢
+
+You're all caught up!
+
+No announcements today.
+
+}

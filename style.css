@@ -113,15 +113,19 @@ section p {
     background: #f8fafc;
     padding: 15px;
     margin-top: 15px;
+    border-radius: 8px;
+
 
 
 }
 
 .announcement-card h3 {
     margin-bottom: 8px;
+
 }
 
 .announcement-card p {
+    margin-top: 6px;
     color: #6b7280;
 
 }
