@@ -28,6 +28,17 @@ function del(index) {
     displayAnnouncements();
 }
 function edi(index) {
+    const newTitle = prompt("Enter new title", announcements[index].title);
+    if (newTitle === null)
+        return;
+    if (newTitle.trim() === "") {
+        alert("Please enter an announcement.")
+        return;
+    }
+
+    announcements[index].title = newTitle.trim();
+    announcements[index].priority = "promptz";
+    displayAnnouncements();
 
 }
 
