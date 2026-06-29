@@ -47,7 +47,7 @@ displayAnnouncements();
 const addBtn = document.getElementById("add-btn");
 const form = document.getElementById("announcement-form");
 const title = document.getElementById("title-input");
-
+const priority = document.getElementById("priority-input");
 addBtn.addEventListener("click", function () { form.style.display = "block"; title.focus(); });
 
 
