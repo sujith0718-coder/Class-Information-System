@@ -129,3 +129,17 @@ section p {
     color: #6b7280;
 
 }
+
+#announcement-form {
+    display: none;
+    margin-top: 20px;
+}
+
+#announcement-form input,
+#announcement-form select,
+#announcement-form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 10px;
+}
