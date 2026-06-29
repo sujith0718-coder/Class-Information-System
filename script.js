@@ -18,8 +18,17 @@ const announcements = [
 ];
 delBtn = document.querySelector(".delBtn");
 function del(index) {
+    if (!confirm("Are you sure you want to delete this announcement?"))
+        return;
+
     announcements.splice(index, 1);
+
+
+
     displayAnnouncements();
+}
+function edi(index) {
+
 }
 
 
@@ -41,6 +50,7 @@ function displayAnnouncements() {
             announcementList.innerHTML += `<div class="announcement-card">
         <h3>${announcement.title}</h3>
         <p>${announcement.priority}</p>
+        <button class=editBtn onclick="edi(${index})">Edit</button>
         <button class=delBtn onclick="del(${index})">Delete</button>
     </div>`
 
