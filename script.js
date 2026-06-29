@@ -16,6 +16,11 @@ const announcements = [
     }
 
 ];
+delBtn = document.querySelector(".delBtn");
+function del(index) {
+    announcements.splice(index, 1);
+    displayAnnouncements();
+}
 
 
 const announcementList = document.getElementById("announcement-list");
@@ -32,11 +37,13 @@ function displayAnnouncements() {
     else {
         announcementList.innerHTML = "";
 
-        announcements.forEach(function (announcement) {
+        announcements.forEach(function (announcement, index) {
             announcementList.innerHTML += `<div class="announcement-card">
         <h3>${announcement.title}</h3>
         <p>${announcement.priority}</p>
+        <button class=delBtn onclick="del(${index})">Delete</button>
     </div>`
+
 
 
         });
