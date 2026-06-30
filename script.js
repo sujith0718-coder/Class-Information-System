@@ -40,12 +40,6 @@ function displayAnnouncements() {
 
         announcements.forEach(function (announcement, index) {
             let priorityClass = "";
-            announcementList.innerHTML += `<div class="announcement-card ${priorityClass}">
-        <h3 >${announcement.title}</h3>
-        <p >${announcement.priority}</p>
-        <button class=editBtn onclick="edi(${index})">Edit</button>
-        <button class=delBtn onclick="del(${index})">Delete</button>
-    </div>`
             if (announcement.priority == "🔴 Critical") {
                 priorityClass = "critical";
 
@@ -55,6 +49,13 @@ function displayAnnouncements() {
 
             }
             else priorityClass = "info";
+            announcementList.innerHTML += `<div class="announcement-card announcement-card-${priorityClass}">
+        <h3 >${announcement.title}</h3>
+        <p >${announcement.priority}</p>
+        <button class="edit-Btn" onclick="edi(${index})">Edit</button>
+        <button class="delete-Btn" onclick="del(${index})">Delete</button>
+    </div>`
+
 
 
 

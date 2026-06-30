@@ -108,8 +108,14 @@ section p {
 
 }
 
+.announcement-card-critical {
+
+    border-left: 5px solid #eb2f25;
+}
+
 .announcement-card {
-    border-left: 5px solid #2563eb;
+
+
     background: #f8fafc;
     padding: 15px;
     margin-top: 15px;
@@ -118,6 +124,16 @@ section p {
 
 
 }
+
+.announcement-card-important {
+    border-left: 5px solid orange;
+
+}
+
+.announcement-card-info {
+    border-left: 5px solid green;
+}
+
 
 .announcement-card h3 {
     margin-bottom: 8px;
@@ -142,4 +158,36 @@ section p {
     width: 100%;
     margin-bottom: 12px;
     padding: 10px;
+}
+
+.edit-Btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s
+}
+
+.delete-Btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s
+}
+
+.edit-Btn:hover {
+    background: #1d4ed8;
+
+    transform: scale(1.03);
+}
+
+.delete-Btn:hover {
+    background: #b91c1c;
+
+    transform: scale(1.05);
 }
