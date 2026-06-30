@@ -1,7 +1,9 @@
 let announcements = JSON.parse(localStorage.getItem("announcements")) || [];
 let editIndex = -1;
+let currentFilter = "All";
+let searchText = "";
 
-const delBtn = document.querySelector(".delBtn");
+
 function del(index) {
     if (!confirm("Are you sure you want to delete this announcement?"))
         return;
@@ -13,6 +15,13 @@ function del(index) {
     displayAnnouncements();
     saveToLocalStorage();
 }
+
+const searchInput = document.getElementById("searchInput");
+searchInput.addEventListener("input", function () {
+    searchText = searchInput.value.trim();
+    displayAnnouncements();
+
+});
 function edi(index) {
     editIndex = index;
     form.style.display = "block";
@@ -25,6 +34,19 @@ function edi(index) {
 const announcementList = document.getElementById("announcement-list");
 
 function displayAnnouncements() {
+    let filteredAnnouncements = announcements;
+
+    if (currentFilter !== "All") {
+        filteredAnnouncements = announcements.filter(function (announcement) {
+            return announcement.priority === currentFilter;
+        })
+    };
+
+    if (searchText !== "") {
+        filteredAnnouncements = filteredAnnouncements.filter(function (announcement) {
+            return announcement.title.toLowerCase().includes(searchText.toLowerCase());
+        })
+    }
 
 
     if (announcements.length === 0) {
@@ -35,10 +57,19 @@ function displayAnnouncements() {
         </div>
     `;
     }
+    else if (filteredAnnouncements.length === 0) {
+        announcementList.innerHTML = `
+        <div class="announcement-card">
+            <h3 >🔍 No announcements found.</h3>
+            <p >Try a different search.</p>
+        </div>
+    `;
+    }
     else {
         announcementList.innerHTML = "";
 
-        announcements.forEach(function (announcement, index) {
+        filteredAnnouncements.forEach(function (announcement) {
+            const oriIndex = announcements.indexOf(announcement);
             let priorityClass = "";
             if (announcement.priority == "🔴 Critical") {
                 priorityClass = "critical";
@@ -69,8 +100,8 @@ function displayAnnouncements() {
         <p >${announcement.priority}</p>
         <small>${formattedDate} • ${formattedTime}</small>
         <div class="btn-group">
-        <button class="edit-Btn" onclick="edi(${index})">Edit</button>
-        <button class="delete-Btn" onclick="del(${index})">Delete</button>
+        <button class="edit-Btn" onclick="edi(${oriIndex})">Edit</button>
+        <button class="delete-Btn" onclick="del(${oriIndex})">Delete</button>
         </div>
     </div>`
 
@@ -87,14 +118,33 @@ function displayAnnouncements() {
 displayAnnouncements();
 
 const addBtn = document.getElementById("add-btn");
+const allBtn = document.getElementById("allBtn");
+const criticalBtn = document.getElementById("criticalBtn");
+const importantBtn = document.getElementById("importantBtn");
+const infoBtn = document.getElementById("infoBtn");
+allBtn.addEventListener("click", function () {
+    currentFilter = "All";
+    displayAnnouncements();
+});
+criticalBtn.addEventListener("click", function () {
+    currentFilter = "🔴 Critical";
+    displayAnnouncements();
+});
+importantBtn.addEventListener("click", function () {
+    currentFilter = "🟠 Important";
+    displayAnnouncements();
+});
+infoBtn.addEventListener("click", function () {
+    currentFilter = "🟢 Information";
+    displayAnnouncements();
+});
+
 const form = document.getElementById("announcement-form");
 const title = document.getElementById("title-input");
 const priority = document.getElementById("priority-input");
 addBtn.addEventListener("click", function () { form.style.display = "block"; title.focus(); });
 const cancelBtn = document.getElementById("cancelBtn")
 cancelBtn.addEventListener("click", function () { form.style.display = "none"; title.value = ""; priority.selectedIndex = 0; editIndex = -1; saveBtn.textContent = "Save"; });
-
-
 const saveBtn = document.getElementById("saveBtn");
 saveBtn.addEventListener("click", function () {
 
@@ -109,7 +159,7 @@ saveBtn.addEventListener("click", function () {
         createdAt: new Date()
 
     };
-    console.log(newAnnouncement);
+
 
     if (editIndex === -1) {
         announcements.push(newAnnouncement);
