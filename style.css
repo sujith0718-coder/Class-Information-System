@@ -152,12 +152,17 @@ section p {
 }
 
 #announcement-form input,
-#announcement-form select,
-#announcement-form button {
+#announcement-form select {
     display: block;
     width: 100%;
     margin-bottom: 12px;
     padding: 10px;
+}
+
+.btn {
+    display: flex;
+    gap: 10px;
+
 }
 
 .edit-Btn {
@@ -189,5 +194,45 @@ section p {
 .delete-Btn:hover {
     background: #b91c1c;
 
+    transform: scale(1.05);
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+#saveBtn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#cancelBtn {
+    background: gray;
+}
+
+#saveBtn:hover {
+    background: #1d4ed8;
+    transform: scale(1.05);
+}
+
+#cancelBtn {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#cancelBtn:hover {
+    background: #4b5563;
     transform: scale(1.05);
 }

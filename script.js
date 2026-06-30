@@ -1,7 +1,7 @@
 let announcements = JSON.parse(localStorage.getItem("announcements")) || [];
 let editIndex = -1;
 
-delBtn = document.querySelector(".delBtn");
+const delBtn = document.querySelector(".delBtn");
 function del(index) {
     if (!confirm("Are you sure you want to delete this announcement?"))
         return;
@@ -49,11 +49,29 @@ function displayAnnouncements() {
 
             }
             else priorityClass = "info";
+            const date = new Date(announcement.createdAt);
+            const formattedDate = date.toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+
+            });
+            const formattedTime = date.toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true
+
+
+            });
+
             announcementList.innerHTML += `<div class="announcement-card announcement-card-${priorityClass}">
         <h3 >${announcement.title}</h3>
         <p >${announcement.priority}</p>
+        <small>${formattedDate} • ${formattedTime}</small>
+        <div class="btn-group">
         <button class="edit-Btn" onclick="edi(${index})">Edit</button>
         <button class="delete-Btn" onclick="del(${index})">Delete</button>
+        </div>
     </div>`
 
 
@@ -73,6 +91,8 @@ const form = document.getElementById("announcement-form");
 const title = document.getElementById("title-input");
 const priority = document.getElementById("priority-input");
 addBtn.addEventListener("click", function () { form.style.display = "block"; title.focus(); });
+const cancelBtn = document.getElementById("cancelBtn")
+cancelBtn.addEventListener("click", function () { form.style.display = "none"; title.value = ""; priority.selectedIndex = 0; editIndex = -1; saveBtn.textContent = "Save"; });
 
 
 const saveBtn = document.getElementById("saveBtn");
@@ -84,9 +104,12 @@ saveBtn.addEventListener("click", function () {
     }
 
     const newAnnouncement = {
-        title: title.value.trim(), priority: priority.value
+        title: title.value.trim(),
+        priority: priority.value,
+        createdAt: new Date()
 
     };
+    console.log(newAnnouncement);
 
     if (editIndex === -1) {
         announcements.push(newAnnouncement);
