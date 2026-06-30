@@ -1,21 +1,6 @@
-const announcements = [
-    {
-        title: "DSP Hall Changed",
-        priority: "🔴 Critical"
-    }
-    ,
-    {
-        title: "Record Submission Tomorrow",
-        priority: "🟠 Important"
+let announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+let editIndex = -1;
 
-    }
-    ,
-    {
-        title: "Faculty Leave",
-        priority: "🟢 Information"
-    }
-
-];
 delBtn = document.querySelector(".delBtn");
 function del(index) {
     if (!confirm("Are you sure you want to delete this announcement?"))
@@ -26,31 +11,27 @@ function del(index) {
 
 
     displayAnnouncements();
+    saveToLocalStorage();
 }
 function edi(index) {
-    const newTitle = prompt("Enter new title", announcements[index].title);
-    if (newTitle === null)
-        return;
-    if (newTitle.trim() === "") {
-        alert("Please enter an announcement.")
-        return;
-    }
-
-    announcements[index].title = newTitle.trim();
-    announcements[index].priority = "promptz";
-    displayAnnouncements();
-
+    editIndex = index;
+    form.style.display = "block";
+    saveBtn.textContent = "Update";
+    title.value = announcements[index].title;
+    priority.value = announcements[index].priority;
 }
 
 
 const announcementList = document.getElementById("announcement-list");
 
 function displayAnnouncements() {
+
+
     if (announcements.length === 0) {
         announcementList.innerHTML = `
         <div class="announcement-card">
-            <h3>📢 You're all caught up!</h3>
-            <p>No announcements today.</p>
+            <h3 >📢 You're all caught up!</h3>
+            <p >No announcements today.</p>
         </div>
     `;
     }
@@ -58,17 +39,31 @@ function displayAnnouncements() {
         announcementList.innerHTML = "";
 
         announcements.forEach(function (announcement, index) {
-            announcementList.innerHTML += `<div class="announcement-card">
-        <h3>${announcement.title}</h3>
-        <p>${announcement.priority}</p>
+            let priorityClass = "";
+            announcementList.innerHTML += `<div class="announcement-card ${priorityClass}">
+        <h3 >${announcement.title}</h3>
+        <p >${announcement.priority}</p>
         <button class=editBtn onclick="edi(${index})">Edit</button>
         <button class=delBtn onclick="del(${index})">Delete</button>
     </div>`
+            if (announcement.priority == "🔴 Critical") {
+                priorityClass = "critical";
+
+            }
+            else if (announcement.priority == "🟠 Important") {
+                priorityClass = "important";
+
+            }
+            else priorityClass = "info";
 
 
 
         });
+
     }
+
+
+
 }
 displayAnnouncements();
 
@@ -92,16 +87,32 @@ saveBtn.addEventListener("click", function () {
 
     };
 
-    announcements.push(newAnnouncement);
+    if (editIndex === -1) {
+        announcements.push(newAnnouncement);
+    }
+    else {
+        announcements[editIndex].title = title.value;
+        announcements[editIndex].priority = priority.value;
+        editIndex = -1;
+    }
+
     displayAnnouncements();
+    saveToLocalStorage();
 
     title.value = "";
     priority.selectedIndex = 0;
 
 
     form.style.display = "none";
+    saveBtn.textContent = "Save";
+
 
 });
+
+function saveToLocalStorage() {
+    localStorage.setItem("announcements", JSON.stringify(announcements));
+};
+
 
 
 
