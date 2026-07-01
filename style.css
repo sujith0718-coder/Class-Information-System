@@ -236,3 +236,10 @@ section p {
     background: #4b5563;
     transform: scale(1.05);
 }
+
+.active-filter {
+    background: #2563eb;
+    color: white;
+    transform: scale(1.05);
+    transition: 0.2s;
+}

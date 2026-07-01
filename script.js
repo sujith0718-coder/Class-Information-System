@@ -2,7 +2,12 @@ let announcements = JSON.parse(localStorage.getItem("announcements")) || [];
 let editIndex = -1;
 let currentFilter = "All";
 let searchText = "";
-
+let todayChanges = {
+    hall: "B-204",
+    faculty: "Present",
+    exam: "CA-2 - 12 Days Left",
+    updates: 1
+}
 
 function del(index) {
     if (!confirm("Are you sure you want to delete this announcement?"))
@@ -122,20 +127,36 @@ const allBtn = document.getElementById("allBtn");
 const criticalBtn = document.getElementById("criticalBtn");
 const importantBtn = document.getElementById("importantBtn");
 const infoBtn = document.getElementById("infoBtn");
+
+const filterButtons = [allBtn, criticalBtn, importantBtn, infoBtn];
+function setActiveButton(activeButton) {
+
+    filterButtons.forEach(btn => btn.classList.remove("active-filter"));
+    activeButton.classList.add("active-filter");
+    searchText = "";
+    searchInput.value = "";
+
+
+
+}
 allBtn.addEventListener("click", function () {
     currentFilter = "All";
+    setActiveButton(allBtn);
     displayAnnouncements();
 });
 criticalBtn.addEventListener("click", function () {
     currentFilter = "🔴 Critical";
+    setActiveButton(criticalBtn);
     displayAnnouncements();
 });
 importantBtn.addEventListener("click", function () {
     currentFilter = "🟠 Important";
+    setActiveButton(importantBtn);
     displayAnnouncements();
 });
 infoBtn.addEventListener("click", function () {
     currentFilter = "🟢 Information";
+    setActiveButton(infoBtn);
     displayAnnouncements();
 });
 
@@ -186,6 +207,37 @@ saveBtn.addEventListener("click", function () {
 function saveToLocalStorage() {
     localStorage.setItem("announcements", JSON.stringify(announcements));
 };
+setActiveButton(allBtn);
+
+function displayTodayChanges() {
+    const changes = document.getElementById("changes");
+
+
+
+    let html = `
+        <h2>🚨 Today's changes</h2>
+
+        <div class="announcement-card">
+            <p>🏫 Hall: ${todayChanges.hall}</p>
+        </div>
+
+        <div class="announcement-card">
+            <p>👨‍🏫 Faculty: ${todayChanges.faculty}</p>
+        </div>
+
+        <div class="announcement-card">
+            <p>⏳ Exam: ${todayChanges.exam}</p>
+        </div>
+
+        <div class="announcement-card">
+            <p>📢 Updates: ${todayChanges.updates}</p>
+        </div>
+    `;
+
+    changes.innerHTML = html;
+}
+
+displayTodayChanges();
 
 
 
