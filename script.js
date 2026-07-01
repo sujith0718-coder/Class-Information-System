@@ -2,12 +2,34 @@ let announcements = JSON.parse(localStorage.getItem("announcements")) || [];
 let editIndex = -1;
 let currentFilter = "All";
 let searchText = "";
-let todayChanges = {
-    hall: "B-204",
-    faculty: "Present",
-    exam: "CA-2 - 12 Days Left",
-    updates: 1
-}
+let todayChanges = [
+    {
+        type: "hall",
+        priority: "high",
+        message: "🏫 DSP Lab moved to B-204"
+    },
+    {
+        type: "faculty",
+        priority: "low",
+        message: "👨‍🏫 Math Faculty: Present"
+    },
+    {
+        type: "exam",
+        priority: "medium",
+        message: "⏳ CA-2: 12 Days Left"
+    }
+    , {
+        type: "faculty",
+        priority: "high",
+        message: "👨‍🏫 Math Faculty: ab"
+    },
+    {
+        type: "exam",
+        priority: "high",
+        message: "⏳ CA-2: 12 Days come"
+    }
+];
+
 
 function del(index) {
     if (!confirm("Are you sure you want to delete this announcement?"))
@@ -209,35 +231,64 @@ function saveToLocalStorage() {
 };
 setActiveButton(allBtn);
 
+function getColor(priority) {
+    switch (priority) {
+        case "high":
+            return "#ef4444";   // Red
+        case "medium":
+            return "#f59e0b";   // Orange
+        case "low":
+            return "#22c55e";   // Green
+        default:
+            return "#3b82f6";   // Blue
+    }
+}
+function displayImportantUpdates() {
+    const changes = document.getElementById("changes");
+    const importantUpdates = document.getElementById("importantUpdates");
+    importantUpdates.innerHTML += `<h3>📢 Latest Important Updates</h3>`;
+
+    todayChanges.forEach(function (item) {
+        if (item.priority === "high") {
+            importantUpdates.innerHTML += `
+                <div class="announcement-card">
+                    <p>${item.message}</p>
+                </div>
+            `;
+        }
+    });
+}
+
 function displayTodayChanges() {
     const changes = document.getElementById("changes");
 
 
+    changes.innerHTML = `
+        <h2>🚨 Today's Changes</h2>
 
-    let html = `
-        <h2>🚨 Today's changes</h2>
+        <button id="sameBtn">🔄 Same as Previous</button>
+        <button id="newBtn">➕ New Changes</button>
+        <div id="todayChangesList"></div>
+        <div id="importantUpdates"></div>
+    `;
+    const todayChangesList = document.getElementById("todayChangesList");
+    todayChanges.forEach(function (item) {
+        todayChangesList.innerHTML += `
+            <div class="announcement-card"
+                 style="border-left:5px solid ${getColor(item.priority)}">
+                <p>${item.message}</p>
+            </div>
+        `;
+    });
+    const sameBtn = document.getElementById("sameBtn");
 
-        <div class="announcement-card">
-            <p>🏫 Hall: ${todayChanges.hall}</p>
-        </div>
-
-        <div class="announcement-card">
-            <p>👨‍🏫 Faculty: ${todayChanges.faculty}</p>
-        </div>
-
-        <div class="announcement-card">
-            <p>⏳ Exam: ${todayChanges.exam}</p>
-        </div>
-
-        <div class="announcement-card">
-            <p>📢 Updates: ${todayChanges.updates}</p>
-        </div>`;
-
-    changes.innerHTML = html;
+    sameBtn.addEventListener("click", function () {
+        alert("Showing previous day's changes.");
+    });
 }
 
 displayTodayChanges();
-
+displayImportantUpdates();
 
 
 
