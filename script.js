@@ -231,8 +231,7 @@ function displayTodayChanges() {
 
         <div class="announcement-card">
             <p>📢 Updates: ${todayChanges.updates}</p>
-        </div>
-    `;
+        </div>`;
 
     changes.innerHTML = html;
 }
