@@ -2,33 +2,10 @@ let announcements = JSON.parse(localStorage.getItem("announcements")) || [];
 let editIndex = -1;
 let currentFilter = "All";
 let searchText = "";
-let todayChanges = [
-    {
-        type: "hall",
-        priority: "high",
-        message: "🏫 DSP Lab moved to B-204"
-    },
-    {
-        type: "faculty",
-        priority: "low",
-        message: "👨‍🏫 Math Faculty: Present"
-    },
-    {
-        type: "exam",
-        priority: "medium",
-        message: "⏳ CA-2: 12 Days Left"
-    }
-    , {
-        type: "faculty",
-        priority: "high",
-        message: "👨‍🏫 Math Faculty: ab"
-    },
-    {
-        type: "exam",
-        priority: "high",
-        message: "⏳ CA-2: 12 Days come"
-    }
-];
+
+
+let todayChanges =
+    JSON.parse(localStorage.getItem("todayChanges")) || [];
 
 
 function del(index) {
@@ -40,7 +17,7 @@ function del(index) {
 
 
     displayAnnouncements();
-    saveToLocalStorage();
+    saveToLocalStorage("announcements", announcements);
 }
 
 const searchInput = document.getElementById("searchInput");
@@ -151,6 +128,8 @@ const importantBtn = document.getElementById("importantBtn");
 const infoBtn = document.getElementById("infoBtn");
 
 const filterButtons = [allBtn, criticalBtn, importantBtn, infoBtn];
+
+
 function setActiveButton(activeButton) {
 
     filterButtons.forEach(btn => btn.classList.remove("active-filter"));
@@ -214,7 +193,7 @@ saveBtn.addEventListener("click", function () {
     }
 
     displayAnnouncements();
-    saveToLocalStorage();
+    saveToLocalStorage("announcements", announcements);
 
     title.value = "";
     priority.selectedIndex = 0;
@@ -226,8 +205,8 @@ saveBtn.addEventListener("click", function () {
 
 });
 
-function saveToLocalStorage() {
-    localStorage.setItem("announcements", JSON.stringify(announcements));
+function saveToLocalStorage(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
 };
 setActiveButton(allBtn);
 
@@ -270,7 +249,68 @@ function displayTodayChanges() {
         <button id="newBtn">➕ New Changes</button>
         <div id="todayChangesList"></div>
         <div id="importantUpdates"></div>
+        <div id="todayChangeForm" style="display:none; margin-top:20px;">
+                    <select id="changeType">
+                        <option value="hall">🏫 Hall</option>
+                        <option value="faculty">👨‍🏫 Faculty</option>
+                        <option value="exam">⏳ Exam</option>
+                        <option value="assignment">📝 Assignment</option>
+                        <option value="holiday">🎉 Holiday</option>
+                    </select>
+                    <select id="changePriority">
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                    <input type="text" id="changeMessage" placeholder="Enter today's change">
+                    <div class="btn">
+                        <button id="saveChangeBtn">Save</button>
+                        <button id="cancelChangeBtn">Cancel</button>
+                    </div>
+
+                </div>
     `;
+
+    const newBtn = document.getElementById("newBtn");
+    const cancelChangeBtn = document.getElementById("cancelChangeBtn");
+    const todayChangeForm = document.getElementById("todayChangeForm");
+    const changeType = document.getElementById("changeType");
+    const changePriority = document.getElementById("changePriority");
+    const changeMessage = document.getElementById("changeMessage");
+    const saveChangeBtn = document.getElementById("saveChangeBtn");
+
+
+
+    saveChangeBtn.addEventListener("click", function () {
+
+        if (changeMessage.value.trim() === "") {
+            alert("Please enter a change.");
+            return;
+        };
+        const newChange = {
+            type: changeType.value,
+            priority: changePriority.value,
+            message: changeMessage.value
+        };
+        todayChanges.push(newChange);
+        console.log(todayChanges);
+        todayChangeForm.style.display = "none";
+        changeType.selectedIndex = 0;
+        changePriority.selectedIndex = 0;
+        changeMessage.value = "";
+        saveToLocalStorage("todayChanges", todayChanges);
+        displayTodayChanges();
+        displayImportantUpdates();
+
+
+    });
+
+    newBtn.addEventListener("click", function () {
+        todayChangeForm.style.display = "block";
+    });
+    cancelChangeBtn.addEventListener("click", function () {
+        todayChangeForm.style.display = "none";
+    });
     const todayChangesList = document.getElementById("todayChangesList");
     todayChanges.forEach(function (item) {
         todayChangesList.innerHTML += `

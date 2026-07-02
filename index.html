@@ -38,6 +38,26 @@
                 <button id="newBtn">➕ New Changes</button>
                 <div id="todayChangesList"></div>
                 <div id="importantUpdates"></div>
+                <div id="todayChangeForm" style="display:none; margin-top:20px;">
+                    <select id="changeType">
+                        <option value="hall">🏫 Hall</option>
+                        <option value="faculty">👨‍🏫 Faculty</option>
+                        <option value="exam">⏳ Exam</option>
+                        <option value="assignment">📝 Assignment</option>
+                        <option value="holiday">🎉 Holiday</option>
+                    </select>
+                    <select id="changePriority">
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                    <input type="text" placeholder="Enter today's change">
+                    <div class="btn">
+                        <button id="saveChangeBtn">Save</button>
+                        <button id="cancelChangeBtn">Cancel</button>
+                    </div>
+
+                </div>
             </section>
             <section id="announcements">
 
